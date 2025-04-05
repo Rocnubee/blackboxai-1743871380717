@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLK Nutrition Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @media (max-width: 768px) {
+            .nutrition-summary {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 1rem;
+                box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+                z-index: 10;
+            }
+            body {
+                padding-bottom: 180px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8">
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">PLK Nutrition Calculator</h1>
+            <p class="text-gray-600">Select items to calculate your meal's nutrition facts</p>
+        </header>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Menu Items Section -->
+            <div class="lg:w-2/3">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Menu Items</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="menu-items">
+                    <!-- Items will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Nutrition Calculator - Desktop -->
+            <div class="lg:w-1/3 bg-white p-6 rounded-lg shadow-md hidden lg:block">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Your Selection</h2>
+                <div id="selected-items" class="mb-6">
+                    <p class="text-gray-500 text-sm">No items selected yet</p>
+                </div>
+                
+                <div class="border-t border-gray-200 pt-4">
+                    <h3 class="font-medium text-gray-800 mb-2">Nutrition Summary</h3>
+                    <div id="nutrition-summary">
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-600">Calories:</span>
+                            <span class="font-medium" id="calories-total">0</span>
+                        </div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-600">Total Fat (g):</span>
+                            <span class="font-medium" id="fat-total">0</span>
+                        </div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-600">Saturated Fat (g):</span>
+                            <span class="font-medium" id="saturated-fat-total">0</span>
+                        </div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-600">Trans Fat (g):</span>
+                            <span class="font-medium" id="trans-fat-total">0</span>
+                        </div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-600">Cholesterol (mg):</span>
+                            <span class="font-medium" id="cholesterol-total">0</span>
+                        </div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-600">Sodium (mg):</span>
+                            <span class="font-medium" id="sodium-total">0</span>
+                        </div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-600">Total Carbs (g):</span>
+                            <span class="font-medium" id="carbs-total">0</span>
+                        </div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-600">Dietary Fiber (g):</span>
+                            <span class="font-medium" id="fiber-total">0</span>
+                        </div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-600">Total Sugar (g):</span>
+                            <span class="font-medium" id="sugar-total">0</span>
+                        </div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-600">Protein (g):</span>
+                            <span class="font-medium" id="protein-total">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nutrition Calculator - Mobile -->
+        <div class="nutrition-summary lg:hidden">
+            <h3 class="font-medium text-gray-800 mb-2">Nutrition Summary</h3>
+            <div class="grid grid-cols-2 gap-2">
+                <div class="flex justify-between">
+                    <span class="text-gray-600 text-sm">Calories:</span>
+                    <span class="font-medium text-sm" id="mobile-calories-total">0</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600 text-sm">Fat (g):</span>
+                    <span class="font-medium text-sm" id="mobile-fat-total">0</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600 text-sm">Carbs (g):</span>
+                    <span class="font-medium text-sm" id="mobile-carbs-total">0</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600 text-sm">Protein (g):</span>
+                    <span class="font-medium text-sm" id="mobile-protein-total">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // PLK menu data from PDF
+        const menuItems = [
+            // Chicken
+            { name: "Wing (each)", calories: 120, fat: 13, saturatedFat: 4, transFat: 0, cholesterol: 40, sodium: 60, carbs: 1, fiber: 0, sugar: 0, protein: 13 },
+            { name: "Leg (each)", calories: 110, fat: 8, saturatedFat: 2, transFat: 0, cholesterol: 40, sodium: 60, carbs: 1, fiber: 0, sugar: 0, protein: 14 },
+            { name: "Thigh (each)", calories: 120, fat: 8, saturatedFat: 2, transFat: 0, cholesterol: 50, sodium: 60, carbs: 1, fiber: 0, sugar: 0, protein: 14 },
+            { name: "Breast (each)", calories: 130, fat: 8, saturatedFat: 2, transFat: 0, cholesterol: 55, sodium: 120, carbs: 1, fiber: 0, sugar: 0, protein: 20 },
+            { name: "Classic/Spicy Tenders (3pc)", calories: 450, fat: 21, saturatedFat: 9, transFat: 1, cholesterol: 100, sodium: 180, carbs: 20, fiber: 2, sugar: 0, protein: 38 },
+            { name: "Classic/Spicy Tenders (5pc)", calories: 740, fat: 34, saturatedFat: 14, transFat: 2, cholesterol: 170, sodium: 300, carbs: 40, fiber: 4, sugar: 0, protein: 63 },
+            { name: "Blackened Tenders (3pc)", calories: 170, fat: 2, saturatedFat: 0, transFat: 0, cholesterol: 55, sodium: 200, carbs: 0, fiber: 0, sugar: 0, protein: 26 },
+            { name: "Blackened Tenders (5pc)", calories: 280, fat: 3, saturatedFat: 0, transFat: 0, cholesterol: 90, sodium: 300, carbs: 0, fiber: 0, sugar: 0, protein: 43 },
+            
+            // Sides
+            { name: "Biscuit", calories: 120, fat: 12, saturatedFat: 6, transFat: 0, cholesterol: 0, sodium: 440, carbs: 20, fiber: 1, sugar: 1, protein: 3 },
+            { name: "Cajun Fries (Reg)", calories: 270, fat: 14, saturatedFat: 5, transFat: 1, cholesterol: 0, sodium: 330, carbs: 33, fiber: 0, sugar: 0, protein: 4 },
+            { name: "Cajun Fries (Lg)", calories: 800, fat: 42, saturatedFat: 15, transFat: 2, cholesterol: 0, sodium: 990, carbs: 97, fiber: 0, sugar: 0, protein: 10 },
+            { name: "Mac & Cheese (Reg)", calories: 280, fat: 21, saturatedFat: 10, transFat: 0.5, cholesterol: 60, sodium: 510, carbs: 16, fiber: 0, sugar: 3, protein: 11 },
+            { name: "Mac & Cheese (Lg)", calories: 850, fat: 63, saturatedFat: 36, transFat: 1.5, cholesterol: 180, sodium: 1540, carbs: 48, fiber: 0, sugar: 9, protein: 33 },
+            { name: "Mashed Potatoes w/ Gravy (Reg)", calories: 110, fat: 4, saturatedFat: 2, transFat: 0, cholesterol: 5, sodium: 590, carbs: 18, fiber: 1, sugar: 1, protein: 3 },
+            { name: "Mashed Potatoes w/ Gravy (Lg)", calories: 330, fat: 12, saturatedFat: 6, transFat: 0, cholesterol: 15, sodium: 1770, carbs: 54, fiber: 3, sugar: 3, protein: 9 },
+            { name: "Red Beans & Rice (Reg)", calories: 250, fat: 16, saturatedFat: 5, transFat: 0, cholesterol: 15, sodium: 610, carbs: 22, fiber: 6, sugar: 0, protein: 8 },
+            { name: "Red Beans & Rice (Lg)", calories: 610, fat: 40, saturatedFat: 13, transFat: 0, cholesterol: 35, sodium: 1490, carbs: 51, fiber: 15, sugar: 0, protein: 19 },
+            { name: "Coleslaw (Reg)", calories: 140, fat: 9, saturatedFat: 1, transFat: 0, cholesterol: 5, sodium: 190, carbs: 12, fiber: 1, sugar: 9, protein: 1 },
+            { name: "Coleslaw (Lg)", calories: 420, fat: 27, saturatedFat: 3, transFat: 0, cholesterol: 15, sodium: 570, carbs: 36, fiber: 3, sugar: 27, protein: 3 },
+            
+            // Sandwiches
+            { name: "Classic Chicken Sandwich", calories: 1700, fat: 38, saturatedFat: 4, transFat: 2, cholesterol: 140, sodium: 1440, carbs: 50, fiber: 2, sugar: 8, protein: 28 },
+            { name: "Spicy Chicken Sandwich", calories: 1700, fat: 38, saturatedFat: 4, transFat: 2, cholesterol: 140, sodium: 1470, carbs: 50, fiber: 2, sugar: 8, protein: 28 },
+            
+            // Beverages
+            { name: "Coke (Small)", calories: 240, fat: 0, saturatedFat: 0, transFat: 0, cholesterol: 0, sodium: 60, carbs: 66, fiber: 0, sugar: 66, protein: 0 },
+            { name: "Sweet Tea (Small)", calories: 180, fat: 0, saturatedFat: 0, transFat: 0, cholesterol: 0, sodium: 10, carbs: 45, fiber: 0, sugar: 45, protein: 0 }
+        ];
+
+        // Selected items array
+        let selectedItems = [];
+
+        // Function to render menu items
+        function renderMenuItems() {
+            const menuContainer = document.getElementById('menu-items');
+            menuContainer.innerHTML = '';
+
+            menuItems.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'bg-white p-4 rounded-lg shadow-sm transition duration-200 hover:shadow-md';
+                itemElement.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-medium text-gray-800">${item.name}</h3>
+                            <div class="text-xs text-gray-600 mt-1">
+                                <span>${item.calories} cal</span> | 
+                                <span>${item.fat}g fat</span> | 
+                                <span>${item.carbs}g carbs</span>
+                            </div>
+                        </div>
+                        <button 
+                            onclick="addToCalculator(${menuItems.indexOf(item)})"
+                            class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-full text-sm transition"
+                        >
+                            Add
+                        </button>
+                    </div>
+                `;
+                menuContainer.appendChild(itemElement);
+            });
+        }
+
+        // Function to add item to calculator
+        function addToCalculator(index) {
+            selectedItems.push(menuItems[index]);
+            updateCalculator();
+        }
+
+        // Function to update calculator
+        function updateCalculator() {
+            const selectedContainer = document.getElementById('selected-items');
+            
+            if (selectedItems.length === 0) {
+                selectedContainer.innerHTML = '<p class="text-gray-500 text-sm">No items selected yet</p>';
+            } else {
+                selectedContainer.innerHTML = selectedItems.map(item => `
+                    <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                        <span class="text-gray-800">${item.name}</span>
+                        <span class="text-sm text-gray-500">${item.calories} cal</span>
+                    </div>
+                `).join('');
+            }
+
+            // Calculate totals
+            const totals = {
+                calories: 0,
+                fat: 0,
+                saturatedFat: 0,
+                transFat: 0,
+                cholesterol: 0,
+                sodium: 0,
+                carbs: 0,
+                fiber: 0,
+                sugar: 0,
+                protein: 0
+            };
+
+            selectedItems.forEach(item => {
+                totals.calories += item.calories;
+                totals.fat += item.fat;
+                totals.saturatedFat += item.saturatedFat;
+                totals.transFat += item.transFat;
+                totals.cholesterol += item.cholesterol;
+                totals.sodium += item.sodium;
+                totals.carbs += item.carbs;
+                totals.fiber += item.fiber;
+                totals.sugar += item.sugar;
+                totals.protein += item.protein;
+            });
+
+            // Update desktop summary
+            document.getElementById('calories-total').textContent = totals.calories;
+            document.getElementById('fat-total').textContent = totals.fat;
+            document.getElementById('saturated-fat-total').textContent = totals.saturatedFat;
+            document.getElementById('trans-fat-total').textContent = totals.transFat;
+            document.getElementById('cholesterol-total').textContent = totals.cholesterol;
+            document.getElementById('sodium-total').textContent = totals.sodium;
+            document.getElementById('carbs-total').textContent = totals.carbs;
+            document.getElementById('fiber-total').textContent = totals.fiber;
+            document.getElementById('sugar-total').textContent = totals.sugar;
+            document.getElementById('protein-total').textContent = totals.protein;
+
+            // Update mobile summary
+            document.getElementById('mobile-calories-total').textContent = totals.calories;
+            document.getElementById('mobile-fat-total').textContent = totals.fat;
+            document.getElementById('mobile-carbs-total').textContent = totals.carbs;
+            document.getElementById('mobile-protein-total').textContent = totals.protein;
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMenuItems();
+        });
+    </script>
+</body>
+</html>
