@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .apple-gradient {
+            background: linear-gradient(to bottom, #000000, #1a1a1a);
+        }
+        .nav-link:hover {
+            opacity: 0.7;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 4px;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown-item {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-item:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body class="bg-black text-white font-sans">
+    <!-- Header -->
+    <header class="fixed w-full z-50 apple-gradient">
+        <nav class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-between h-12">
+                <!-- Apple Logo -->
+                <a href="#" class="text-white text-xl">
+                    <i class="fab fa-apple"></i>
+                </a>
+                
+                <!-- Main Navigation -->
+                <div class="hidden md:flex space-x-6">
+                    <div class="dropdown">
+                        <a href="#" class="nav-link text-sm text-gray-300">Store</a>
+                        <div class="dropdown-content">
+                            <a href="#" class="dropdown-item">Shop the Latest</a>
+                            <a href="#" class="dropdown-item">Mac</a>
+                            <a href="#" class="dropdown-item">iPad</a>
+                            <a href="#" class="dropdown-item">iPhone</a>
+                            <a href="#" class="dropdown-item">Apple Watch</a>
+                        </div>
+                    </div>
+                    <a href="#" class="nav-link text-sm text-gray-300">Mac</a>
+                    <a href="#" class="nav-link text-sm text-gray-300">iPad</a>
+                    <a href="#" class="nav-link text-sm text-gray-300">iPhone</a>
+                    <a href="#" class="nav-link text-sm text-gray-300">Watch</a>
+                    <a href="#" class="nav-link text-sm text-gray-300">AirPods</a>
+                    <a href="#" class="nav-link text-sm text-gray-300">TV & Home</a>
+                    <a href="#" class="nav-link text-sm text-gray-300">Entertainment</a>
+                    <a href="#" class="nav-link text-sm text-gray-300">Accessories</a>
+                    <a href="#" class="nav-link text-sm text-gray-300">Support</a>
+                </div>
+                
+                <!-- Right Icons -->
+                <div class="flex items-center space-x-5">
+                    <a href="#" class="text-gray-300 hover:text-white">
+                        <i class="fas fa-search"></i>
+                    </a>
+                    <a href="#" class="text-gray-300 hover:text-white">
+                        <i class="fas fa-shopping-bag"></i>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Rest of the content remains the same as previous version -->
+    <!-- Hero Section -->
+    <section class="pt-12">
+        <div class="relative h-screen flex items-center justify-center bg-black">
+            <div class="absolute inset-0 overflow-hidden">
+                <img src="https://images.pexels.com/photos/3586249/pexels-photo-3586249.jpeg" 
+                     alt="iPhone" 
+                     class="w-full h-full object-cover opacity-70">
+            </div>
+            <div class="relative z-10 text-center px-4">
+                <h1 class="text-5xl md:text-7xl font-bold mb-4">iPhone 15 Pro</h1>
+                <p class="text-xl md:text-2xl mb-8">Titanium. So strong. So light. So Pro.</p>
+                <div class="space-x-4">
+                    <a href="#" class="inline-block px-6 py-2 bg-blue-600 rounded-full text-white hover:bg-blue-700 transition">
+                        Buy
+                    </a>
+                    <a href="#" class="inline-block px-6 py-2 text-blue-400 hover:underline">
+                        Learn more >
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Grid -->
+    <section class="py-16 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-semibold text-center mb-12">The latest. Take a look at what's new, right now.</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Product 1 -->
+                <div class="bg-gray-800 rounded-lg overflow-hidden">
+                    <div class="h-64 bg-gray-700 flex items-center justify-center">
+                        <img src="https://images.pexels.com/photos/812264/pexels-photo-812264.jpeg" 
+                             alt="MacBook" 
+                             class="h-full object-contain">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">MacBook Air</h3>
+                        <p class="text-gray-400 mb-4">Lean. Mean. M3 machine.</p>
+                        <a href="#" class="text-blue-400 hover:underline">Learn more ></a>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="bg-gray-800 rounded-lg overflow-hidden">
+                    <div class="h-64 bg-gray-700 flex items-center justify-center">
+                        <img src="https://images.pexels.com/photos/1334597/pexels-photo-1334597.jpeg" 
+                             alt="iPad" 
+                             class="h-full object-contain">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">iPad Pro</h3>
+                        <p class="text-gray-400 mb-4">Supercharged by M2.</p>
+                        <a href="#" class="text-blue-400 hover:underline">Learn more ></a>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="bg-gray-800 rounded-lg overflow-hidden">
+                    <div class="h-64 bg-gray-700 flex items-center justify-center">
+                        <img src="https://images.pexels.com/photos/4158/apple-iphone-smartphone-desk.jpg" 
+                             alt="iPhone" 
+                             class="h-full object-contain">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">iPhone 15</h3>
+                        <p class="text-gray-400 mb-4">New camera. New design. Newphoria.</p>
+                        <a href="#" class="text-blue-400 hover:underline">Learn more ></a>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="bg-gray-800 rounded-lg overflow-hidden">
+                    <div class="h-64 bg-gray-700 flex items-center justify-center">
+                        <img src="https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg" 
+                             alt="Apple Watch" 
+                             class="h-full object-contain">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Apple Watch</h3>
+                        <p class="text-gray-400 mb-4">A healthy leap ahead.</p>
+                        <a href="#" class="text-blue-400 hover:underline">Learn more ></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+                <!-- Column 1 -->
+                <div>
+                    <h3 class="text-gray-500 font-semibold mb-4">Shop and Learn</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Store</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Mac</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">iPad</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">iPhone</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Watch</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 2 -->
+                <div>
+                    <h3 class="text-gray-500 font-semibold mb-4">Services</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Apple Music</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Apple TV+</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Apple Fitness+</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">iCloud</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Apple One</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 3 -->
+                <div>
+                    <h3 class="text-gray-500 font-semibold mb-4">Apple Store</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Find a Store</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Genius Bar</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Today at Apple</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Apple Camp</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Apple Store App</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 4 -->
+                <div>
+                    <h3 class="text-gray-500 font-semibold mb-4">For Business</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Apple and Business</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Shop for Business</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 5 -->
+                <div>
+                    <h3 class="text-gray-500 font-semibold mb-4">Apple Values</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Accessibility</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Environment</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Supplier Responsibility</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-6">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-500 text-sm">Copyright © 2023 Apple Inc. All rights reserved.</p>
+                    <div class="flex space-x-6 mt-4 md:mt-0">
+                        <a href="#" class="text-gray-500 hover:text-white">Privacy Policy</a>
+                        <a href="#" class="text-gray-500 hover:text-white">Terms of Use</a>
+                        <a href="#" class="text-gray-500 hover:text-white">Sales and Refunds</a>
+                        <a href="#" class="text-gray-500 hover:text-white">Legal</a>
+                        <a href="#" class="text-gray-500 hover:text-white">Site Map</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
