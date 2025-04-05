@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popeyes Nutrition Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .nutrition-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8">
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Popeyes Nutrition Calculator</h1>
+            <p class="text-gray-600">Select items to calculate your meal's nutrition facts</p>
+        </header>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Menu Items Section -->
+            <div class="lg:w-2/3">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Menu Items</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="menu-items">
+                    <!-- Items will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Nutrition Calculator -->
+            <div class="lg:w-1/3 bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Your Selection</h2>
+                <div id="selected-items" class="mb-6">
+                    <p class="text-gray-500 text-sm">No items selected yet</p>
+                </div>
+                
+                <div class="border-t border-gray-200 pt-4">
+                    <h3 class="font-medium text-gray-800 mb-2">Nutrition Summary</h3>
+                    <div id="nutrition-summary">
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-600">Calories:</span>
+                            <span class="font-medium" id="calories-total">0</span>
+                        </div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-600">Protein (g):</span>
+                            <span class="font-medium" id="protein-total">0</span>
+                        </div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-600">Carbs (g):</span>
+                            <span class="font-medium" id="carbs-total">0</span>
+                        </div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-600">Fat (g):</span>
+                            <span class="font-medium" id="fat-total">0</span>
+                        </div>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-gray-600">Sodium (mg):</span>
+                            <span class="font-medium" id="sodium-total">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample Popeyes menu data
+        const menuItems = [
+            {
+                name: "Classic Chicken Sandwich",
+                calories: 700,
+                protein: 28,
+                carbs: 51,
+                fat: 42,
+                sodium: 1440,
+                description: "Crispy chicken fillet with pickles and mayo"
+            },
+            {
+                name: "Spicy Chicken Sandwich",
+                calories: 690,
+                protein: 28,
+                carbs: 50,
+                fat: 42,
+                sodium: 1440,
+                description: "Spicy crispy chicken with pickles and mayo"
+            },
+            {
+                name: "5pc Chicken Tenders",
+                calories: 440,
+                protein: 38,
+                carbs: 25,
+                fat: 22,
+                sodium: 1560,
+                description: "Five crispy chicken tenders"
+            },
+            {
+                name: "Cajun Fries (Regular)",
+                calories: 400,
+                protein: 4,
+                carbs: 44,
+                fat: 24,
+                sodium: 810,
+                description: "Seasoned crispy fries"
+            },
+            {
+                name: "Red Beans & Rice",
+                calories: 230,
+                protein: 7,
+                carbs: 40,
+                fat: 5,
+                sodium: 860,
+                description: "Classic Louisiana-style side"
+            },
+            {
+                name: "Biscuit",
+                calories: 220,
+                protein: 3,
+                carbs: 22,
+                fat: 13,
+                sodium: 540,
+                description: "Buttery, flaky biscuit"
+            }
+        ];
+
+        // Selected items array
+        let selectedItems = [];
+
+        // Function to render menu items
+        function renderMenuItems() {
+            const menuContainer = document.getElementById('menu-items');
+            menuContainer.innerHTML = '';
+
+            menuItems.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'nutrition-card bg-white p-4 rounded-lg shadow-sm transition duration-200';
+                itemElement.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-medium text-gray-800">${item.name}</h3>
+                            <p class="text-sm text-gray-500 mb-2">${item.description}</p>
+                            <div class="text-xs text-gray-600">
+                                <span>${item.calories} cal</span> | 
+                                <span>${item.protein}g protein</span> | 
+                                <span>${item.carbs}g carbs</span>
+                            </div>
+                        </div>
+                        <button 
+                            onclick="addToCalculator(${menuItems.indexOf(item)})"
+                            class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-full text-sm transition"
+                        >
+                            Add
+                        </button>
+                    </div>
+                `;
+                menuContainer.appendChild(itemElement);
+            });
+        }
+
+        // Function to add item to calculator
+        function addToCalculator(index) {
+            selectedItems.push(menuItems[index]);
+            updateCalculator();
+        }
+
+        // Function to update calculator
+        function updateCalculator() {
+            const selectedContainer = document.getElementById('selected-items');
+            
+            if (selectedItems.length === 0) {
+                selectedContainer.innerHTML = '<p class="text-gray-500 text-sm">No items selected yet</p>';
+            } else {
+                selectedContainer.innerHTML = selectedItems.map(item => `
+                    <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                        <span class="text-gray-800">${item.name}</span>
+                        <span class="text-sm text-gray-500">${item.calories} cal</span>
+                    </div>
+                `).join('');
+            }
+
+            // Calculate totals
+            const totals = {
+                calories: 0,
+                protein: 0,
+                carbs: 0,
+                fat: 0,
+                sodium: 0
+            };
+
+            selectedItems.forEach(item => {
+                totals.calories += item.calories;
+                totals.protein += item.protein;
+                totals.carbs += item.carbs;
+                totals.fat += item.fat;
+                totals.sodium += item.sodium;
+            });
+
+            // Update summary
+            document.getElementById('calories-total').textContent = totals.calories;
+            document.getElementById('protein-total').textContent = totals.protein;
+            document.getElementById('carbs-total').textContent = totals.carbs;
+            document.getElementById('fat-total').textContent = totals.fat;
+            document.getElementById('sodium-total').textContent = totals.sodium;
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMenuItems();
+        });
+    </script>
+</body>
+</html>
